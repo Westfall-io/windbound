@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.12 (2024-12-03)
+
+### :bug:
+
+* :bug: Adding debug to checkout error ([`5404459`](https://github.com/Westfall-io/windbound/commit/54044598666c2d2bdc57a64f345915792855487b))
+
 ## v0.0.11 (2024-12-03)
 
 ## v0.0.10 (2024-12-03)
