@@ -58,7 +58,7 @@ def main(action=SAMPLE_ACTION, thread_execution_id=0, prev_thread_name=None):
     template_render(action)
 
     # Collect and push a input archive to storage
-    create_bucket(client, action)
+    create_bucket(client, action, thread_name)
 
     # Initialize a local repo in the attached volume
     repo2 = init()
