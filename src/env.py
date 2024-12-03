@@ -31,9 +31,13 @@ WINDSTORMAPISECRET = os.environ.get("WINDSTORMAPISECRET","")
 
 ## MINIO VALUES
 MINIOHOST = os.environ.get("MINIOHOST","storage-minio.artifacts:9000")
-MINIOUSER = os.environ.get("MINIOUSER","CcgP5DINKOfemEXcjYyL")
-MINIOTOKEN = os.environ.get("MINIOUSER","YS62HYwroWYozFGoWyeZjYsmGwFLEULu047lquE6")
+MINIOUSER = os.environ.get("MINIOUSER","")
+MINIOTOKEN = os.environ.get("MINIOTOKEN","")
 MINIORETENTIONDAYS = os.environ.get("MINIORETENTIONDAYS", 7)
 
 ## ARTIFACT GIT VALUES
 GITHOST = os.environ.get("GITHOST","https://configs.digitalforge.app")
+
+## KEYCLOAK VALUES
+KEYCLOAKHOST = os.environ.get("KEYCLOAKHOST","https://keycloak.digitalforge.app")
+KEYCLOAKREALM = os.environ.get("KEYCLOAKREALM","test")
