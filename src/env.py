@@ -33,6 +33,7 @@ WINDSTORMAPISECRET = os.environ.get("WINDSTORMAPISECRET","")
 MINIOHOST = os.environ.get("MINIOHOST","storage-minio.artifacts:9000")
 MINIOUSER = os.environ.get("MINIOUSER","CcgP5DINKOfemEXcjYyL")
 MINIOTOKEN = os.environ.get("MINIOUSER","YS62HYwroWYozFGoWyeZjYsmGwFLEULu047lquE6")
+MINIORETENTIONDAYS = os.environ.get("MINIORETENTIONDAYS", 7)
 
 ## ARTIFACT GIT VALUES
 GITHOST = os.environ.get("GITHOST","https://configs.digitalforge.app")
