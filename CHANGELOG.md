@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.13 (2024-12-03)
+
+### :bug:
+
+* :bug: Fixed an issue with a missing variable input ([`7221db8`](https://github.com/Westfall-io/windbound/commit/7221db8ddb8c3640dc63f612dce37f4c4d70979d))
+
 ## v0.0.12 (2024-12-03)
 
 ### :bug:
