@@ -36,7 +36,9 @@ MINIOTOKEN = os.environ.get("MINIOTOKEN","")
 MINIORETENTIONDAYS = os.environ.get("MINIORETENTIONDAYS", 7)
 
 ## ARTIFACT GIT VALUES
-GITHOST = os.environ.get("GITHOST","https://configs.digitalforge.app")
+GITHOST = os.environ.get("GITHOST","configs.digitalforge.app")
+GITUSER = os.environ.get("GITUSER","")
+GITPASS = os.environ.get("GITPASS","")
 
 ## KEYCLOAK VALUES
 KEYCLOAKHOST = os.environ.get("KEYCLOAKHOST","https://keycloak.digitalforge.app")
