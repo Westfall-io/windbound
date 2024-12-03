@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.9 (2024-12-03)
+
+### :bug:
+
+* :bug: Moving to token endpoint ([`e99cfaa`](https://github.com/Westfall-io/windbound/commit/e99cfaadb4985c6805fb0d62b1ca797263390a18))
+
 ## v0.0.8 (2024-12-03)
 
 ## v0.0.7 (2024-12-03)
