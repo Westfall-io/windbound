@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## v0.0.11 (2024-12-03)
+
 ## v0.0.10 (2024-12-03)
 
 ### :bug:
+
+* :bug: Fixed an issue with passwordless git clone ([`8257528`](https://github.com/Westfall-io/windbound/commit/8257528753951f4d53261fee292adb6666491a85))
 
 * :bug: Fixed an issue with a thread that had no dependencies ([`3148b40`](https://github.com/Westfall-io/windbound/commit/3148b402428ecbad47e81289dccd68f6ff4f7990))
 
