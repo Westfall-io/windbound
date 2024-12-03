@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## v0.0.7 (2024-12-03)
+
 ## v0.0.6 (2024-12-03)
 
 ### :bug:
+
+* :bug: Fixed a missing json import ([`5daaac2`](https://github.com/Westfall-io/windbound/commit/5daaac234496f8c851da67394d343609cda599e2))
 
 * :bug: Adding license to pyproject.toml ([`e885a30`](https://github.com/Westfall-io/windbound/commit/e885a30418dad4d403e2a2b5c318fb4e8f1444f4))
 
