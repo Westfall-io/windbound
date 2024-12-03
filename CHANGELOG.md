@@ -1,6 +1,12 @@
 # CHANGELOG
 
+## v0.0.8 (2024-12-03)
+
 ## v0.0.7 (2024-12-03)
+
+### :bug:
+
+* :bug: Adding debug to authorization workflow ([`04de4dc`](https://github.com/Westfall-io/windbound/commit/04de4dcbf3d4c67158b8f467c0460b3f1f521ad5))
 
 ## v0.0.6 (2024-12-03)
 
