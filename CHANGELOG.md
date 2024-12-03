@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.14 (2024-12-03)
+
+### :bug:
+
+* :bug: Fixed an issue with bucket names having a space ([`5959fdf`](https://github.com/Westfall-io/windbound/commit/5959fdf1c253d1040ebd30a690647e076f330883))
+
 ## v0.0.13 (2024-12-03)
 
 ### :bug:
