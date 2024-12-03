@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.3 (2024-12-03)
+
+### :bug:
+
+* :bug: Fixed an issue with missing environment variable ([`fba82f0`](https://github.com/Westfall-io/windbound/commit/fba82f09d4df7be66625f78a3751ad5b08648098))
+
 ## v0.0.2 (2024-12-03)
 
 ### :bug:
