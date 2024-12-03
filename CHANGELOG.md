@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.4 (2024-12-03)
+
+### :heavy_plus_sign:
+
+* :heavy_plus_sign: Adding requests dependency to requirements.txt ([`02868b3`](https://github.com/Westfall-io/windbound/commit/02868b378fc8f6dc3d8fa0ba402cb013a76896b3))
+
 ## v0.0.3 (2024-12-03)
 
 ### :bug:
