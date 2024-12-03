@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.0.6 (2024-12-03)
+
+### :bug:
+
+* :bug: Adding license to pyproject.toml ([`e885a30`](https://github.com/Westfall-io/windbound/commit/e885a30418dad4d403e2a2b5c318fb4e8f1444f4))
+
+### Other
+
+* :bento: Updating submodule ([`1596d58`](https://github.com/Westfall-io/windbound/commit/1596d58eb13c2e6eb265fbbc129c536921253a10))
+
 ## v0.0.5 (2024-12-03)
 
 ### :bug:
