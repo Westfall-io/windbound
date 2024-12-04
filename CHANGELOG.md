@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.15 (2024-12-04)
+
+### :bug:
+
+* :bug: Fixed an issue where the zip file could not be uploaded ([`ef1ba40`](https://github.com/Westfall-io/windbound/commit/ef1ba4084c5ddd744d30271abdbd413db4a16ac3))
+
 ## v0.0.14 (2024-12-03)
 
 ### :bug:
