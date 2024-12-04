@@ -20,6 +20,10 @@ import os
 ## WINDRUNNER CONFIGURATION VALUES
 VOLDEF = "/mnt/vol"
 VOLUME = os.environ.get("VOLUME",VOLDEF)
+WINDRUNNERHOST = os.environ.get(
+    "WINDRUNNERHOST",
+    "http://windrunner-webhook-eventsource-svc.argo-events:12000/windrunner"
+)
 
 ## WINDSTORM VALUES
 WINDSTORMAPIHOST = os.environ.get(
