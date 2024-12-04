@@ -21,10 +21,8 @@ import time
 start_time = time.time()
 
 from windbinder.sample_action import SAMPLE_ACTION
-
 from windbinder.minio.login import login_minio
 from windbinder.minio.bucket import download_dependent_output, create_bucket
-
 from windbinder.windstorm.authentication import login_windstorm_api
 from windbinder.windstorm.thread import update_thread_status, \
     check_thread_dependency, template_render
@@ -49,7 +47,7 @@ def main(action=SAMPLE_ACTION, thread_execution_id=0, prev_thread_name=None):
 
     # Download the required output, if necessary
     if action_prev is not None:
-        download_dependent_output(client, action_prev)
+        download_dependent_output(client, action_prev, prev_thread_name)
 
     # Clone the template artifact repo
     repo = clone(action)
