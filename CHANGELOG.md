@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.17 (2024-12-04)
+
+### :bug:
+
+* :bug: Adding debug for access token issue ([`762e10e`](https://github.com/Westfall-io/windbound/commit/762e10e0c18fc9708a81058c2bcf9c022cb609f6))
+
 ## v0.0.16 (2024-12-04)
 
 ### :bug:
