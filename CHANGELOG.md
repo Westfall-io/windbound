@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.16 (2024-12-04)
+
+### :bug:
+
+* :bug: Adding authentication to thread update call ([`0faca18`](https://github.com/Westfall-io/windbound/commit/0faca18f0754a8f0de25104a3f32e034cea9fdc1))
+
 ## v0.0.15 (2024-12-04)
 
 ### :bug:
