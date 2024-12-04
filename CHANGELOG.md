@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.20 (2024-12-04)
+
+### :bug:
+
+* :bug: Fixed an issue where a function was underloaded ([`ae908a7`](https://github.com/Westfall-io/windbound/commit/ae908a7b3f331752d46e97c99bae35d5b43a46f0))
+
 ## v0.0.19 (2024-12-04)
 
 ### :bug:
