@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.0.18 (2024-12-04)
+
+### :bug:
+
+* :bug: Fixed an issue with authentication headers to windstorm api ([`61313ef`](https://github.com/Westfall-io/windbound/commit/61313ef25ef3379f13b79c9239f0f55e3d963985))
+
 ## v0.0.17 (2024-12-04)
 
 ### :bug:
