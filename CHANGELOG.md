@@ -1,10 +1,16 @@
 # CHANGELOG
 
+## v0.1.0 (2024-12-31)
+
 ## v0.0.21 (2024-12-04)
 
 ### :bug:
 
 * :bug: Fixed a missing env variable ([`b053315`](https://github.com/Westfall-io/windbound/commit/b05331548c073e863e787d29e0f37dd98d00e456))
+
+### :sparkles:
+
+* :sparkles: Support for minikube ([`91b8a0f`](https://github.com/Westfall-io/windbound/commit/91b8a0f60b3b7d94b60eb2ab0eca4cbec95eebdb))
 
 ## v0.0.20 (2024-12-04)
 
