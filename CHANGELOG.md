@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.0 (2024-12-31)
+
+### :sparkles:
+
+* :sparkles: Migrating from minikube version to fully hosted k8s ([`25f26a7`](https://github.com/Westfall-io/windbound/commit/25f26a755daa8dcdc77516bdc8db69b501037281))
+
 ## v0.1.0 (2024-12-31)
 
 ## v0.0.21 (2024-12-04)
