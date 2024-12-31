@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v0.0.21 (2024-12-04)
+
+### :bug:
+
+* :bug: Fixed a missing env variable ([`b053315`](https://github.com/Westfall-io/windbound/commit/b05331548c073e863e787d29e0f37dd98d00e456))
+
 ## v0.0.20 (2024-12-04)
 
 ### :bug:
+
+* :bug: Fixed a missing env variable ([`31aa362`](https://github.com/Westfall-io/windbound/commit/31aa3628fc24551d2128b252fab2be9dd94a8a0f))
 
 * :bug: Fixed an issue where a function was underloaded ([`ae908a7`](https://github.com/Westfall-io/windbound/commit/ae908a7b3f331752d46e97c99bae35d5b43a46f0))
 
