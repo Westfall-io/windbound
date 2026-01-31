@@ -17,6 +17,19 @@
 
 import os
 
+"""
+Environment configuration for Windbound/windrunner.
+
+This module reads common environment variables and exposes them as module
+level constants with reasonable defaults. Other modules import these
+constants to configure network endpoints, credentials, and filesystem
+locations without having to parse environment variables themselves.
+
+The variables are grouped by the subsystem they configure (Windrunner,
+Windstorm, MinIO, Git, and Keycloak). Consumers should treat these constants
+as read-only configuration values.
+"""
+
 ## WINDRUNNER CONFIGURATION VALUES
 VOLDEF = "/mnt/vol"
 VOLUME = os.environ.get("VOLUME",VOLDEF)
