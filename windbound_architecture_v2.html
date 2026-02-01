@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windbound - System Architecture & SysML v2 Model</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #764ba2;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        h4 {
+            color: #764ba2;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .diagram-container {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .sysml-block {
+            background: #fff;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .sysml-keyword {
+            color: #764ba2;
+            font-weight: bold;
+        }
+        
+        .component {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .component-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+        }
+        
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .flow-box {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 150px;
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #764ba2;
+            margin: 0 10px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+        
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .comment { color: #6272a4; }
+        .function { color: #8be9fd; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .architecture-layer {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .interface-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .interface-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .interface-list li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .deployment-node {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .deployment-node-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌪️ Windbound</h1>
+            <p class="subtitle">Input Management Container - System Architecture & SysML v2 Model</p>
+            <p style="margin-top: 10px; color: #666;">Version 0.2.0 | Pipeline Component for Windrunner Workflow</p>
+        </header>
+
+        <!-- EXECUTIVE SUMMARY -->
+        <div class="section">
+            <h2>📋 Executive Summary</h2>
+            <p>Windbound is a containerized input management system that serves as a critical component in the Windrunner pipeline. It orchestrates the collection, preparation, and distribution of input artifacts required for downstream container execution. The system integrates with multiple external services including Windstorm API for workflow orchestration, MinIO for object storage, and Git repositories for template management.</p>
+            
+            <div class="note">
+                <strong>Key Purpose:</strong> Windbound acts as the input builder and dependency resolver in a multi-stage containerized workflow, ensuring that each execution has the correct artifacts and dependencies available before processing begins.
+            </div>
+        </div>
+
+        <!-- SYSML V2 MODEL -->
+        <div class="section">
+            <h2>🔷 SysML v2 Model</h2>
+            
+            <h3>Package Structure</h3>
+            <div class="sysml-block">
+<span class="sysml-keyword">package</span> Windbound {
+    <span class="comment">// System-level package definition</span>
+    <span class="sysml-keyword">import</span> ScalarValues::*;
+    <span class="sysml-keyword">import</span> SI::*;
+    
+    <span class="sysml-keyword">package</span> Requirements;
+    <span class="sysml-keyword">package</span> Structure;
+    <span class="sysml-keyword">package</span> Behavior;
+    <span class="sysml-keyword">package</span> Deployment;
+}
+            </div>
+
+            <h3>Requirements Model</h3>
+            <div class="sysml-block">
+<span class="sysml-keyword">package</span> Requirements {
+    <span class="sysml-keyword">requirement def</span> SystemRequirements {
+        <span class="sysml-keyword">doc</span> /* Top-level requirements for Windbound system */
+        
+        <span class="sysml-keyword">requirement</span> authenticateWithExternalServices {
+            <span class="sysml-keyword">doc</span> /* System shall authenticate with Windstorm API and MinIO */
+            <span class="sysml-keyword">subject</span> authenticationSystem : AuthenticationBehavior;
+        }
+        
+        <span class="sysml-keyword">requirement</span> manageDependencies {
+            <span class="sysml-keyword">doc</span> /* System shall resolve and download dependent outputs */
+            <span class="sysml-keyword">subject</span> dependencyManager : DependencyResolution;
+        }
+        
+        <span class="sysml-keyword">requirement</span> templateProcessing {
+            <span class="sysml-keyword">doc</span> /* System shall clone and render template artifacts */
+            <span class="sysml-keyword">subject</span> templateEngine : TemplateRenderer;
+        }
+        
+        <span class="sysml-keyword">requirement</span> artifactStorage {
+            <span class="sysml-keyword">doc</span> /* System shall package and upload artifacts to object storage */
+            <span class="sysml-keyword">subject</span> storageManager : ArtifactUploader;
+        }
+        
+        <span class="sysml-keyword">requirement</span> volumeManagement {
+            <span class="sysml-keyword">doc</span> /* System shall initialize local repository in attached volume */
+            <span class="sysml-keyword">subject</span> volumeManager : VolumeInitializer;
+        }
+    }
+}
+            </div>
+
+            <h3>Structure Model - Part Definitions</h3>
+            <div class="sysml-block">
+<span class="sysml-keyword">package</span> Structure {
+    <span class="sysml-keyword">part def</span> WindboundSystem {
+        <span class="sysml-keyword">doc</span> /* Main system definition for Windbound input management */
+        
+        <span class="comment">// Core components</span>
+        <span class="sysml-keyword">part</span> mainController : MainController;
+        <span class="sysml-keyword">part</span> environmentConfig : EnvironmentConfiguration;
+        <span class="sysml-keyword">part</span> windbinder : WindbinderLibrary;
+        
+        <span class="comment">// External interfaces</span>
+        <span class="sysml-keyword">part</span> minioInterface : MinIOInterface;
+        <span class="sysml-keyword">part</span> windstormInterface : WindstormAPIInterface;
+        <span class="sysml-keyword">part</span> gitInterface : GitInterface;
+        <span class="sysml-keyword">part</span> keycloakInterface : KeycloakInterface;
+        
+        <span class="comment">// Storage components</span>
+        <span class="sysml-keyword">part</span> volumeStorage : VolumeStorage;
+        <span class="sysml-keyword">part</span> objectStorage : ObjectStorage;
+    }
+    
+    <span class="sysml-keyword">part def</span> MainController {
+        <span class="sysml-keyword">doc</span> /* Central orchestration component (main.py) */
+        
+        <span class="sysml-keyword">attribute</span> thread_execution_id : Integer;
+        <span class="sysml-keyword">attribute</span> action : String;
+        <span class="sysml-keyword">attribute</span> prev_thread_name : String[0..1];
+        
+        <span class="sysml-keyword">port</span> minioPort : MinIOPort;
+        <span class="sysml-keyword">port</span> windstormPort : WindstormPort;
+        <span class="sysml-keyword">port</span> gitPort : GitPort;
+    }
+    
+    <span class="sysml-keyword">part def</span> EnvironmentConfiguration {
+        <span class="sysml-keyword">doc</span> /* Environment configuration management (env.py) */
+        
+        <span class="comment">// Windrunner configuration</span>
+        <span class="sysml-keyword">attribute</span> VOLUME : String = "/mnt/vol";
+        <span class="sysml-keyword">attribute</span> WINDRUNNERHOST : String;
+        
+        <span class="comment">// Windstorm API configuration</span>
+        <span class="sysml-keyword">attribute</span> WINDSTORMAPIHOST : String;
+        <span class="sysml-keyword">attribute</span> WINDSTORMAPICLIENT : String;
+        <span class="sysml-keyword">attribute</span> WINDSTORMAPISECRET : String;
+        
+        <span class="comment">// MinIO configuration</span>
+        <span class="sysml-keyword">attribute</span> MINIOHOST : String;
+        <span class="sysml-keyword">attribute</span> MINIOUSER : String;
+        <span class="sysml-keyword">attribute</span> MINIOTOKEN : String;
+        <span class="sysml-keyword">attribute</span> MINIORETENTIONDAYS : Integer = 7;
+        
+        <span class="comment">// Git configuration</span>
+        <span class="sysml-keyword">attribute</span> GITHOST : String;
+        <span class="sysml-keyword">attribute</span> GITUSER : String;
+        <span class="sysml-keyword">attribute</span> GITPASS : String;
+        
+        <span class="comment">// Keycloak configuration</span>
+        <span class="sysml-keyword">attribute</span> KEYCLOAKHOST : String;
+        <span class="sysml-keyword">attribute</span> KEYCLOAKREALM : String;
+    }
+    
+    <span class="sysml-keyword">part def</span> WindbinderLibrary {
+        <span class="sysml-keyword">doc</span> /* Shared library submodule for common functionality */
+        
+        <span class="sysml-keyword">part</span> minioModule : MinIOModule;
+        <span class="sysml-keyword">part</span> windstormModule : WindstormModule;
+        <span class="sysml-keyword">part</span> gitModule : GitModule;
+        <span class="sysml-keyword">part</span> sampleAction : SampleAction;
+    }
+    
+    <span class="sysml-keyword">part def</span> MinIOModule {
+        <span class="sysml-keyword">doc</span> /* MinIO object storage integration */
+        
+        <span class="sysml-keyword">part</span> loginService : MinIOLoginService;
+        <span class="sysml-keyword">part</span> bucketService : BucketManagementService;
+    }
+    
+    <span class="sysml-keyword">part def</span> BucketManagementService {
+        <span class="sysml-keyword">perform action</span> downloadDependentOutput;
+        <span class="sysml-keyword">perform action</span> createBucket;
+    }
+    
+    <span class="sysml-keyword">part def</span> WindstormModule {
+        <span class="sysml-keyword">doc</span> /* Windstorm API integration for workflow orchestration */
+        
+        <span class="sysml-keyword">part</span> authService : WindstormAuthService;
+        <span class="sysml-keyword">part</span> threadService : ThreadManagementService;
+    }
+    
+    <span class="sysml-keyword">part def</span> ThreadManagementService {
+        <span class="sysml-keyword">perform action</span> updateThreadStatus;
+        <span class="sysml-keyword">perform action</span> checkThreadDependency;
+        <span class="sysml-keyword">perform action</span> templateRender;
+    }
+    
+    <span class="sysml-keyword">part def</span> GitModule {
+        <span class="sysml-keyword">doc</span> /* Git repository management */
+        
+        <span class="sysml-keyword">perform action</span> cloneRepository;
+        <span class="sysml-keyword">perform action</span> initializeRepository;
+    }
+}
+            </div>
+
+            <h3>Behavior Model - Actions</h3>
+            <div class="sysml-block">
+<span class="sysml-keyword">package</span> Behavior {
+    <span class="sysml-keyword">action def</span> WindboundMainFlow {
+        <span class="sysml-keyword">doc</span> /* Primary workflow orchestration */
+        
+        <span class="sysml-keyword">in</span> action : String;
+        <span class="sysml-keyword">in</span> thread_execution_id : Integer;
+        <span class="sysml-keyword">in</span> prev_thread_name : String[0..1];
+        
+        <span class="sysml-keyword">out</span> buildComplete : Boolean;
+        
+        <span class="sysml-keyword">action</span> authenticateMinIO : AuthenticateMinIO {
+            <span class="sysml-keyword">out</span> client : MinIOClient;
+        }
+        
+        <span class="sysml-keyword">action</span> authenticateWindstorm : AuthenticateWindstorm {
+            <span class="sysml-keyword">out</span> token : OAuthToken;
+        }
+        
+        <span class="sysml-keyword">action</span> updateStatusStart : UpdateThreadStatus {
+            <span class="sysml-keyword">in</span> token : OAuthToken;
+            <span class="sysml-keyword">in</span> thread_execution_id : Integer;
+            <span class="sysml-keyword">in</span> status : String = "windrunner_1";
+            <span class="sysml-keyword">out</span> thread_name : String;
+        }
+        
+        <span class="sysml-keyword">action</span> resolveDependencies : ResolveDependencies {
+            <span class="sysml-keyword">in</span> action : String;
+            <span class="sysml-keyword">in</span> prev_thread_name : String[0..1];
+            <span class="sysml-keyword">out</span> resolvedAction : String;
+            <span class="sysml-keyword">out</span> actionPrev : String[0..1];
+        }
+        
+        <span class="sysml-keyword">action</span> downloadDependencies : DownloadDependentOutput {
+            <span class="sysml-keyword">in</span> client : MinIOClient;
+            <span class="sysml-keyword">in</span> actionPrev : String[0..1];
+            <span class="sysml-keyword">in</span> prevThreadName : String[0..1];
+        }
+        
+        <span class="sysml-keyword">action</span> cloneTemplate : CloneTemplateRepository {
+            <span class="sysml-keyword">in</span> action : String;
+            <span class="sysml-keyword">out</span> repository : GitRepository;
+        }
+        
+        <span class="sysml-keyword">action</span> renderTemplate : RenderTemplate {
+            <span class="sysml-keyword">in</span> action : String;
+        }
+        
+        <span class="sysml-keyword">action</span> packageAndUpload : CreateBucket {
+            <span class="sysml-keyword">in</span> client : MinIOClient;
+            <span class="sysml-keyword">in</span> action : String;
+            <span class="sysml-keyword">in</span> thread_name : String;
+        }
+        
+        <span class="sysml-keyword">action</span> initializeVolume : InitializeLocalRepository {
+            <span class="sysml-keyword">out</span> repository : GitRepository;
+        }
+        
+        <span class="sysml-keyword">action</span> updateStatusComplete : UpdateThreadStatus {
+            <span class="sysml-keyword">in</span> token : OAuthToken;
+            <span class="sysml-keyword">in</span> thread_execution_id : Integer;
+            <span class="sysml-keyword">in</span> status : String = "windrunner_2";
+        }
+        
+        <span class="comment">// Flow sequence</span>
+        <span class="sysml-keyword">first</span> authenticateMinIO;
+        <span class="sysml-keyword">then</span> authenticateWindstorm;
+        <span class="sysml-keyword">then</span> updateStatusStart;
+        <span class="sysml-keyword">then</span> resolveDependencies;
+        <span class="sysml-keyword">then</span> downloadDependencies;
+        <span class="sysml-keyword">then</span> cloneTemplate;
+        <span class="sysml-keyword">then</span> renderTemplate;
+        <span class="sysml-keyword">then</span> packageAndUpload;
+        <span class="sysml-keyword">then</span> initializeVolume;
+        <span class="sysml-keyword">then</span> updateStatusComplete;
+    }
+    
+    <span class="sysml-keyword">action def</span> AuthenticateMinIO {
+        <span class="sysml-keyword">doc</span> /* Establish MinIO client connection */
+        <span class="sysml-keyword">out</span> client : MinIOClient;
+    }
+    
+    <span class="sysml-keyword">action def</span> AuthenticateWindstorm {
+        <span class="sysml-keyword">doc</span> /* Obtain OAuth2 token from Keycloak via Windstorm */
+        <span class="sysml-keyword">out</span> token : OAuthToken;
+    }
+    
+    <span class="sysml-keyword">action def</span> UpdateThreadStatus {
+        <span class="sysml-keyword">doc</span> /* Update execution status in Windstorm API */
+        <span class="sysml-keyword">in</span> token : OAuthToken;
+        <span class="sysml-keyword">in</span> thread_execution_id : Integer;
+        <span class="sysml-keyword">in</span> status : String;
+        <span class="sysml-keyword">out</span> thread_name : String;
+    }
+    
+    <span class="sysml-keyword">action def</span> ResolveDependencies {
+        <span class="sysml-keyword">doc</span> /* Check and resolve thread dependencies */
+        <span class="sysml-keyword">in</span> action : String;
+        <span class="sysml-keyword">in</span> prev_thread_name : String[0..1];
+        <span class="sysml-keyword">out</span> resolvedAction : String;
+        <span class="sysml-keyword">out</span> actionPrev : String[0..1];
+    }
+    
+    <span class="sysml-keyword">action def</span> DownloadDependentOutput {
+        <span class="sysml-keyword">doc</span> /* Download outputs from previous pipeline stage */
+        <span class="sysml-keyword">in</span> client : MinIOClient;
+        <span class="sysml-keyword">in</span> actionPrev : String[0..1];
+        <span class="sysml-keyword">in</span> prevThreadName : String[0..1];
+    }
+    
+    <span class="sysml-keyword">action def</span> CloneTemplateRepository {
+        <span class="sysml-keyword">doc</span> /* Clone artifact template from Git repository */
+        <span class="sysml-keyword">in</span> action : String;
+        <span class="sysml-keyword">out</span> repository : GitRepository;
+    }
+    
+    <span class="sysml-keyword">action def</span> RenderTemplate {
+        <span class="sysml-keyword">doc</span> /* Process templates using Jinja2 engine */
+        <span class="sysml-keyword">in</span> action : String;
+    }
+    
+    <span class="sysml-keyword">action def</span> CreateBucket {
+        <span class="sysml-keyword">doc</span> /* Package artifacts and upload to MinIO */
+        <span class="sysml-keyword">in</span> client : MinIOClient;
+        <span class="sysml-keyword">in</span> action : String;
+        <span class="sysml-keyword">in</span> thread_name : String;
+    }
+    
+    <span class="sysml-keyword">action def</span> InitializeLocalRepository {
+        <span class="sysml-keyword">doc</span> /* Initialize Git repository in attached volume */
+        <span class="sysml-keyword">out</span> repository : GitRepository;
+    }
+}
+            </div>
+
+            <h3>Interface Definitions</h3>
+            <div class="sysml-block">
+<span class="sysml-keyword">package</span> Structure {
+    <span class="sysml-keyword">interface def</span> MinIOInterface {
+        <span class="sysml-keyword">doc</span> /* S3-compatible object storage interface */
+        
+        <span class="sysml-keyword">in</span> host : String;
+        <span class="sysml-keyword">in</span> accessKey : String;
+        <span class="sysml-keyword">in</span> secretKey : String;
+        
+        <span class="sysml-keyword">out</span> bucketData : BinaryData;
+    }
+    
+    <span class="sysml-keyword">interface def</span> WindstormAPIInterface {
+        <span class="sysml-keyword">doc</span> /* RESTful API for workflow orchestration */
+        
+        <span class="sysml-keyword">in</span> apiEndpoint : String;
+        <span class="sysml-keyword">in</span> oauthToken : String;
+        
+        <span class="sysml-keyword">out</span> threadStatus : String;
+        <span class="sysml-keyword">out</span> threadData : JSONData;
+    }
+    
+    <span class="sysml-keyword">interface def</span> GitInterface {
+        <span class="sysml-keyword">doc</span> /* Git protocol for repository operations */
+        
+        <span class="sysml-keyword">in</span> gitHost : String;
+        <span class="sysml-keyword">in</span> credentials : GitCredentials;
+        
+        <span class="sysml-keyword">out</span> repository : GitRepository;
+    }
+    
+    <span class="sysml-keyword">interface def</span> KeycloakInterface {
+        <span class="sysml-keyword">doc</span> /* OAuth2/OpenID Connect authentication */
+        
+        <span class="sysml-keyword">in</span> realm : String;
+        <span class="sysml-keyword">in</span> clientId : String;
+        <span class="sysml-keyword">in</span> clientSecret : String;
+        
+        <span class="sysml-keyword">out</span> accessToken : String;
+        <span class="sysml-keyword">out</span> refreshToken : String;
+    }
+}
+            </div>
+        </div>
+
+        <!-- HIGH-LEVEL ARCHITECTURE -->
+        <div class="section">
+            <h2>🏗️ High-Level Architecture</h2>
+            
+            <h3>System Context Diagram</h3>
+            <div class="diagram-container">
+                <svg viewBox="0 0 1200 700" style="width: 100%; height: auto;">
+                    <!-- Windbound Container -->
+                    <rect x="450" y="250" width="300" height="200" fill="#667eea" stroke="#764ba2" stroke-width="3" rx="10"/>
+                    <text x="600" y="280" text-anchor="middle" fill="white" font-size="20" font-weight="bold">WINDBOUND</text>
+                    <text x="600" y="310" text-anchor="middle" fill="white" font-size="14">Input Management</text>
+                    <text x="600" y="335" text-anchor="middle" fill="white" font-size="12">• Authenticate</text>
+                    <text x="600" y="360" text-anchor="middle" fill="white" font-size="12">• Resolve Dependencies</text>
+                    <text x="600" y="385" text-anchor="middle" fill="white" font-size="12">• Clone Templates</text>
+                    <text x="600" y="410" text-anchor="middle" fill="white" font-size="12">• Render & Package</text>
+                    <text x="600" y="435" text-anchor="middle" fill="white" font-size="12">• Upload Artifacts</text>
+                    
+                    <!-- Windstorm API -->
+                    <rect x="50" y="50" width="200" height="100" fill="#50fa7b" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="85" text-anchor="middle" font-size="16" font-weight="bold">Windstorm API</text>
+                    <text x="150" y="110" text-anchor="middle" font-size="12">Workflow Orchestration</text>
+                    <text x="150" y="130" text-anchor="middle" font-size="12">Thread Management</text>
+                    
+                    <!-- Keycloak -->
+                    <rect x="50" y="200" width="200" height="100" fill="#ffb86c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="235" text-anchor="middle" font-size="16" font-weight="bold">Keycloak</text>
+                    <text x="150" y="260" text-anchor="middle" font-size="12">OAuth2 Authentication</text>
+                    <text x="150" y="280" text-anchor="middle" font-size="12">Identity Provider</text>
+                    
+                    <!-- MinIO -->
+                    <rect x="50" y="350" width="200" height="100" fill="#ff79c6" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="385" text-anchor="middle" font-size="16" font-weight="bold">MinIO</text>
+                    <text x="150" y="410" text-anchor="middle" font-size="12">Object Storage</text>
+                    <text x="150" y="430" text-anchor="middle" font-size="12">Artifact Repository</text>
+                    
+                    <!-- Git Repository -->
+                    <rect x="50" y="500" width="200" height="100" fill="#8be9fd" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="535" text-anchor="middle" font-size="16" font-weight="bold">Git Repository</text>
+                    <text x="150" y="560" text-anchor="middle" font-size="12">Template Storage</text>
+                    <text x="150" y="580" text-anchor="middle" font-size="12">Version Control</text>
+                    
+                    <!-- Volume Storage -->
+                    <rect x="950" y="250" width="200" height="100" fill="#bd93f9" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="1050" y="285" text-anchor="middle" font-size="16" font-weight="bold">Volume Storage</text>
+                    <text x="1050" y="310" text-anchor="middle" font-size="12">/mnt/vol</text>
+                    <text x="1050" y="330" text-anchor="middle" font-size="12">Attached Volume</text>
+                    
+                    <!-- Downstream Container -->
+                    <rect x="950" y="400" width="200" height="100" fill="#f1fa8c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="1050" y="435" text-anchor="middle" font-size="16" font-weight="bold">Next Pipeline Stage</text>
+                    <text x="1050" y="460" text-anchor="middle" font-size="12">Consumes Input</text>
+                    <text x="1050" y="480" text-anchor="middle" font-size="12">Artifacts</text>
+                    
+                    <!-- Connections -->
+                    <!-- Windstorm to Windbound -->
+                    <line x1="250" y1="100" x2="450" y2="300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="330" y="180" font-size="11" fill="#333">Thread Status</text>
+                    
+                    <!-- Keycloak to Windbound -->
+                    <line x1="250" y1="250" x2="450" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="330" y="270" font-size="11" fill="#333">OAuth Token</text>
+                    
+                    <!-- MinIO to Windbound -->
+                    <line x1="250" y1="400" x2="450" y2="380" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="330" y="375" font-size="11" fill="#333">Download Deps</text>
+                    
+                    <!-- Git to Windbound -->
+                    <line x1="250" y1="550" x2="450" y2="420" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="330" y="470" font-size="11" fill="#333">Clone Templates</text>
+                    
+                    <!-- Windbound to MinIO -->
+                    <line x1="450" y1="380" x2="250" y2="400" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="330" y="405" font-size="11" fill="#333">Upload Artifacts</text>
+                    
+                    <!-- Windbound to Volume -->
+                    <line x1="750" y1="300" x2="950" y2="300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="830" y="285" font-size="11" fill="#333">Initialize Repo</text>
+                    
+                    <!-- Volume to Next Stage -->
+                    <line x1="1050" y1="350" x2="1050" y2="400" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="1060" y="375" font-size="11" fill="#333">Shared Data</text>
+                    
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h3>Component Architecture</h3>
+            <div class="grid-2">
+                <div class="component">
+                    <div class="component-title">🎯 Main Controller</div>
+                    <p><strong>Module:</strong> main.py</p>
+                    <p><strong>Purpose:</strong> Orchestrates the entire input build workflow</p>
+                    <p><strong>Key Functions:</strong></p>
+                    <ul>
+                        <li>Coordinates authentication flows</li>
+                        <li>Manages execution lifecycle</li>
+                        <li>Handles error propagation</li>
+                    </ul>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">⚙️ Environment Configuration</div>
+                    <p><strong>Module:</strong> env.py</p>
+                    <p><strong>Purpose:</strong> Centralized configuration management</p>
+                    <p><strong>Key Functions:</strong></p>
+                    <ul>
+                        <li>Reads environment variables</li>
+                        <li>Provides default values</li>
+                        <li>Exposes configuration constants</li>
+                    </ul>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">🔗 Windbinder Library</div>
+                    <p><strong>Module:</strong> windbinder (Git submodule)</p>
+                    <p><strong>Purpose:</strong> Shared functionality across Windrunner ecosystem</p>
+                    <p><strong>Key Modules:</strong></p>
+                    <ul>
+                        <li>MinIO operations</li>
+                        <li>Windstorm API client</li>
+                        <li>Git operations</li>
+                        <li>Sample actions</li>
+                    </ul>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">📦 Dependency Manager</div>
+                    <p><strong>Module:</strong> windbinder.minio.bucket</p>
+                    <p><strong>Purpose:</strong> Handles inter-thread dependencies</p>
+                    <p><strong>Key Functions:</strong></p>
+                    <ul>
+                        <li>Downloads dependent outputs</li>
+                        <li>Resolves artifact locations</li>
+                        <li>Manages bucket operations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUNCTIONAL ARCHITECTURE -->
+        <div class="section">
+            <h2>⚡ Functional Architecture</h2>
+            
+            <h3>Primary Workflow Sequence</h3>
+            <div class="flow-diagram">
+                <div class="flow-box">1. Authenticate<br>MinIO</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">2. Authenticate<br>Windstorm</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">3. Update<br>Status</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">4. Resolve<br>Dependencies</div>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-box">5. Download<br>Outputs</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">6. Clone<br>Template</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">7. Render<br>Template</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">8. Package &<br>Upload</div>
+            </div>
+            
+            <div class="flow-diagram">
+                <div class="flow-box">9. Initialize<br>Volume</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">10. Update<br>Complete</div>
+                <span class="arrow">→</span>
+                <div class="flow-box">✅ Done</div>
+            </div>
+
+            <h3>Functional Decomposition</h3>
+            
+            <div class="architecture-layer">
+                <h4>Authentication Layer</h4>
+                <ul class="interface-list">
+                    <li><strong>login_minio()</strong> - Creates S3-compatible MinIO client with credentials</li>
+                    <li><strong>login_windstorm_api()</strong> - Obtains OAuth2 bearer token from Keycloak</li>
+                    <li>Uses client credentials grant flow for service-to-service auth</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>Workflow Orchestration Layer</h4>
+                <ul class="interface-list">
+                    <li><strong>update_thread_status()</strong> - Reports execution progress to Windstorm</li>
+                    <li><strong>check_thread_dependency()</strong> - Resolves action dependencies</li>
+                    <li>Supports windrunner_1 (started) and windrunner_2 (completed) states</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>Artifact Management Layer</h4>
+                <ul class="interface-list">
+                    <li><strong>download_dependent_output()</strong> - Fetches outputs from previous threads</li>
+                    <li><strong>create_bucket()</strong> - Packages and uploads input artifacts to MinIO</li>
+                    <li>Manages retention policies and versioning</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>Template Processing Layer</h4>
+                <ul class="interface-list">
+                    <li><strong>clone()</strong> - Clones template repository from Git host</li>
+                    <li><strong>template_render()</strong> - Processes Jinja2 templates with context data</li>
+                    <li>Supports parameterized artifact generation</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>Volume Management Layer</h4>
+                <ul class="interface-list">
+                    <li><strong>init()</strong> - Initializes Git repository in attached volume</li>
+                    <li>Prepares shared filesystem for downstream containers</li>
+                    <li>Validates volume mount at /mnt/vol</li>
+                </ul>
+            </div>
+
+            <h3>Data Flow Diagram</h3>
+            <div class="diagram-container">
+                <svg viewBox="0 0 1000 600" style="width: 100%; height: auto;">
+                    <!-- Input Parameters -->
+                    <rect x="50" y="50" width="200" height="80" fill="#8be9fd" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="75" text-anchor="middle" font-size="14" font-weight="bold">Input Parameters</text>
+                    <text x="150" y="95" text-anchor="middle" font-size="11">action</text>
+                    <text x="150" y="110" text-anchor="middle" font-size="11">thread_execution_id</text>
+                    <text x="150" y="125" text-anchor="middle" font-size="11">prev_thread_name</text>
+                    
+                    <!-- MinIO Client -->
+                    <rect x="400" y="50" width="200" height="60" fill="#ff79c6" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="500" y="75" text-anchor="middle" font-size="14" font-weight="bold">MinIO Client</text>
+                    <text x="500" y="95" text-anchor="middle" font-size="11">S3-compatible storage</text>
+                    
+                    <!-- OAuth Token -->
+                    <rect x="750" y="50" width="200" height="60" fill="#ffb86c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="850" y="75" text-anchor="middle" font-size="14" font-weight="bold">OAuth Token</text>
+                    <text x="850" y="95" text-anchor="middle" font-size="11">Bearer authentication</text>
+                    
+                    <!-- Dependency Data -->
+                    <rect x="50" y="200" width="200" height="60" fill="#50fa7b" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="150" y="225" text-anchor="middle" font-size="14" font-weight="bold">Dependency Data</text>
+                    <text x="150" y="245" text-anchor="middle" font-size="11">Previous outputs</text>
+                    
+                    <!-- Template Repository -->
+                    <rect x="400" y="200" width="200" height="60" fill="#bd93f9" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="500" y="225" text-anchor="middle" font-size="14" font-weight="bold">Template Repo</text>
+                    <text x="500" y="245" text-anchor="middle" font-size="11">Cloned artifacts</text>
+                    
+                    <!-- Rendered Templates -->
+                    <rect x="750" y="200" width="200" height="60" fill="#f1fa8c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="850" y="225" text-anchor="middle" font-size="14" font-weight="bold">Rendered Templates</text>
+                    <text x="850" y="245" text-anchor="middle" font-size="11">Processed Jinja2</text>
+                    
+                    <!-- Input Archive -->
+                    <rect x="400" y="350" width="200" height="60" fill="#ff5555" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="500" y="375" text-anchor="middle" font-size="14" font-weight="bold">Input Archive</text>
+                    <text x="500" y="395" text-anchor="middle" font-size="11">Packaged artifacts</text>
+                    
+                    <!-- MinIO Storage -->
+                    <rect x="400" y="500" width="200" height="60" fill="#ff79c6" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="500" y="525" text-anchor="middle" font-size="14" font-weight="bold">MinIO Storage</text>
+                    <text x="500" y="545" text-anchor="middle" font-size="11">Uploaded artifacts</text>
+                    
+                    <!-- Volume Repository -->
+                    <rect x="750" y="350" width="200" height="60" fill="#bd93f9" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="850" y="375" text-anchor="middle" font-size="14" font-weight="bold">Volume Repo</text>
+                    <text x="850" y="395" text-anchor="middle" font-size="11">/mnt/vol initialized</text>
+                    
+                    <!-- Arrows -->
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+                        </marker>
+                    </defs>
+                    
+                    <line x1="250" y1="90" x2="400" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="250" y1="90" x2="750" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="500" y1="110" x2="150" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="150" y1="130" x2="400" y2="230" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="600" y1="230" x2="750" y2="230" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="850" y1="260" x2="500" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="500" y1="410" x2="500" y2="500" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                    <line x1="250" y1="90" x2="750" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- PHYSICAL ARCHITECTURE -->
+        <div class="section">
+            <h2>🖥️ Physical Architecture</h2>
+            
+            <h3>Container Specifications</h3>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Type</th>
+                    <th>Specification</th>
+                </tr>
+                <tr>
+                    <td>Base Image</td>
+                    <td>Container</td>
+                    <td>python:3.11-slim</td>
+                </tr>
+                <tr>
+                    <td>Runtime</td>
+                    <td>Language</td>
+                    <td>Python 3.11+</td>
+                </tr>
+                <tr>
+                    <td>Package Manager</td>
+                    <td>Tool</td>
+                    <td>pip (Poetry-based project)</td>
+                </tr>
+                <tr>
+                    <td>Working Directory</td>
+                    <td>Path</td>
+                    <td>/app</td>
+                </tr>
+                <tr>
+                    <td>Volume Mount</td>
+                    <td>Storage</td>
+                    <td>/mnt/vol (configurable)</td>
+                </tr>
+                <tr>
+                    <td>Temp Directory</td>
+                    <td>Path</td>
+                    <td>/app/tmp</td>
+                </tr>
+            </table>
+
+            <h3>Dependencies</h3>
+            <table>
+                <tr>
+                    <th>Library</th>
+                    <th>Version</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>GitPython</td>
+                    <td>3.1.37</td>
+                    <td>Git repository operations</td>
+                </tr>
+                <tr>
+                    <td>Jinja2</td>
+                    <td>3.1.2</td>
+                    <td>Template rendering engine</td>
+                </tr>
+                <tr>
+                    <td>minio</td>
+                    <td>7.1.17</td>
+                    <td>S3-compatible object storage client</td>
+                </tr>
+                <tr>
+                    <td>fire</td>
+                    <td>0.5.0</td>
+                    <td>CLI interface generation</td>
+                </tr>
+                <tr>
+                    <td>requests</td>
+                    <td>2.31.0</td>
+                    <td>HTTP client for API calls</td>
+                </tr>
+            </table>
+
+            <h3>Network Interfaces</h3>
+            <div class="grid-2">
+                <div class="deployment-node">
+                    <div class="deployment-node-title">Windstorm API</div>
+                    <p><strong>Protocol:</strong> HTTP/HTTPS</p>
+                    <p><strong>Default:</strong> http://windstorm-api-service.windstorm:8000/</p>
+                    <p><strong>Authentication:</strong> OAuth2 Bearer Token</p>
+                </div>
+                
+                <div class="deployment-node">
+                    <div class="deployment-node-title">MinIO Storage</div>
+                    <p><strong>Protocol:</strong> S3 API</p>
+                    <p><strong>Default:</strong> storage-minio.artifacts:9000</p>
+                    <p><strong>Authentication:</strong> Access Key + Secret</p>
+                </div>
+                
+                <div class="deployment-node">
+                    <div class="deployment-node-title">Git Repository</div>
+                    <p><strong>Protocol:</strong> Git (HTTPS/SSH)</p>
+                    <p><strong>Default:</strong> configs.digitalforge.app</p>
+                    <p><strong>Authentication:</strong> Username + Password/Token</p>
+                </div>
+                
+                <div class="deployment-node">
+                    <div class="deployment-node-title">Keycloak IdP</div>
+                    <p><strong>Protocol:</strong> HTTPS</p>
+                    <p><strong>Default:</strong> https://keycloak.digitalforge.app</p>
+                    <p><strong>Realm:</strong> Configurable (default: test)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEPLOYMENT DESIGN -->
+        <div class="section">
+            <h2>🚀 Deployment Design</h2>
+            
+            <h3>Kubernetes Deployment Architecture</h3>
+            <div class="diagram-container">
+                <svg viewBox="0 0 1200 800" style="width: 100%; height: auto;">
+                    <!-- Kubernetes Cluster -->
+                    <rect x="50" y="50" width="1100" height="700" fill="#f0f0f0" stroke="#667eea" stroke-width="4" rx="10" stroke-dasharray="10,5"/>
+                    <text x="600" y="90" text-anchor="middle" font-size="24" font-weight="bold" fill="#667eea">Kubernetes Cluster</text>
+                    
+                    <!-- Argo Events Namespace -->
+                    <rect x="100" y="120" width="450" height="250" fill="#e6f2ff" stroke="#667eea" stroke-width="2" rx="5"/>
+                    <text x="325" y="150" text-anchor="middle" font-size="18" font-weight="bold">Namespace: argo-events</text>
+                    
+                    <!-- Windrunner Webhook -->
+                    <rect x="130" y="170" width="380" height="80" fill="#8be9fd" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="320" y="195" text-anchor="middle" font-size="14" font-weight="bold">windrunner-webhook-eventsource-svc</text>
+                    <text x="320" y="215" text-anchor="middle" font-size="12">Port: 12000</text>
+                    <text x="320" y="235" text-anchor="middle" font-size="12">Endpoint: /windrunner</text>
+                    
+                    <!-- Windbound Pod -->
+                    <rect x="130" y="270" width="380" height="80" fill="#667eea" stroke="#333" stroke-width="3" rx="5"/>
+                    <text x="320" y="295" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Windbound Container</text>
+                    <text x="320" y="315" text-anchor="middle" font-size="12" fill="white">Image: ghcr.io/westfall-io/windbound:latest</text>
+                    <text x="320" y="335" text-anchor="middle" font-size="12" fill="white">CMD: python src/main.py</text>
+                    
+                    <!-- Windstorm Namespace -->
+                    <rect x="600" y="120" width="520" height="250" fill="#fff4e6" stroke="#764ba2" stroke-width="2" rx="5"/>
+                    <text x="860" y="150" text-anchor="middle" font-size="18" font-weight="bold">Namespace: windstorm</text>
+                    
+                    <!-- Windstorm API Service -->
+                    <rect x="630" y="170" width="220" height="80" fill="#50fa7b" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="740" y="195" text-anchor="middle" font-size="14" font-weight="bold">windstorm-api-service</text>
+                    <text x="740" y="215" text-anchor="middle" font-size="12">Port: 8000</text>
+                    <text x="740" y="235" text-anchor="middle" font-size="12">RESTful API</text>
+                    
+                    <!-- Keycloak Service -->
+                    <rect x="880" y="170" width="220" height="80" fill="#ffb86c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="990" y="195" text-anchor="middle" font-size="14" font-weight="bold">Keycloak</text>
+                    <text x="990" y="215" text-anchor="middle" font-size="12">External</text>
+                    <text x="990" y="235" text-anchor="middle" font-size="12">keycloak.digitalforge.app</text>
+                    
+                    <!-- Postgres DB -->
+                    <rect x="630" y="270" width="220" height="80" fill="#bd93f9" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="740" y="295" text-anchor="middle" font-size="14" font-weight="bold">PostgreSQL</text>
+                    <text x="740" y="315" text-anchor="middle" font-size="12">Windstorm Database</text>
+                    
+                    <!-- Artifacts Namespace -->
+                    <rect x="100" y="430" width="1000" height="280" fill="#f0ffe6" stroke="#50fa7b" stroke-width="2" rx="5"/>
+                    <text x="600" y="460" text-anchor="middle" font-size="18" font-weight="bold">Namespace: artifacts</text>
+                    
+                    <!-- MinIO Service -->
+                    <rect x="130" y="480" width="300" height="100" fill="#ff79c6" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="280" y="510" text-anchor="middle" font-size="14" font-weight="bold">storage-minio</text>
+                    <text x="280" y="530" text-anchor="middle" font-size="12">Port: 9000 (API)</text>
+                    <text x="280" y="550" text-anchor="middle" font-size="12">Port: 9001 (Console)</text>
+                    <text x="280" y="570" text-anchor="middle" font-size="12">S3-compatible storage</text>
+                    
+                    <!-- MinIO PVC -->
+                    <rect x="480" y="480" width="300" height="100" fill="#f1fa8c" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="630" y="510" text-anchor="middle" font-size="14" font-weight="bold">PersistentVolumeClaim</text>
+                    <text x="630" y="530" text-anchor="middle" font-size="12">Storage Class: default</text>
+                    <text x="630" y="550" text-anchor="middle" font-size="12">Access Mode: ReadWriteOnce</text>
+                    <text x="630" y="570" text-anchor="middle" font-size="12">Artifact retention: 7 days</text>
+                    
+                    <!-- Shared Volume -->
+                    <rect x="830" y="480" width="250" height="100" fill="#bd93f9" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="955" y="510" text-anchor="middle" font-size="14" font-weight="bold">Shared Volume</text>
+                    <text x="955" y="530" text-anchor="middle" font-size="12">/mnt/vol</text>
+                    <text x="955" y="550" text-anchor="middle" font-size="12">EmptyDir/HostPath</text>
+                    <text x="955" y="570" text-anchor="middle" font-size="12">Inter-container data</text>
+                    
+                    <!-- Git Repository (External) -->
+                    <rect x="130" y="600" width="300" height="80" fill="#8be9fd" stroke="#333" stroke-width="2" rx="5"/>
+                    <text x="280" y="625" text-anchor="middle" font-size="14" font-weight="bold">Git Repository</text>
+                    <text x="280" y="645" text-anchor="middle" font-size="12">External: configs.digitalforge.app</text>
+                    <text x="280" y="665" text-anchor="middle" font-size="12">Template storage</text>
+                    
+                    <!-- Connections -->
+                    <defs>
+                        <marker id="k8sarrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Windbound to Windstorm API -->
+                    <line x1="510" y1="310" x2="630" y2="210" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                    <text x="560" y="250" font-size="11">API Calls</text>
+                    
+                    <!-- Windbound to Keycloak -->
+                    <line x1="510" y1="300" x2="880" y2="210" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                    <text x="680" y="240" font-size="11">Auth</text>
+                    
+                    <!-- Windbound to MinIO -->
+                    <line x1="320" y1="350" x2="280" y2="480" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                    <text x="285" y="410" font-size="11">S3 API</text>
+                    
+                    <!-- Windbound to Shared Volume -->
+                    <line x1="510" y1="330" x2="830" y2="530" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                    <text x="650" y="420" font-size="11">Mount</text>
+                    
+                    <!-- Windbound to Git -->
+                    <line x1="200" y1="350" x2="230" y2="600" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                    <text x="200" y="470" font-size="11">Clone</text>
+                    
+                    <!-- MinIO to PVC -->
+                    <line x1="430" y1="530" x2="480" y2="530" stroke="#333" stroke-width="2" marker-end="url(#k8sarrow)"/>
+                </svg>
+            </div>
+
+            <h3>Container Lifecycle</h3>
+            <div class="architecture-layer">
+                <h4>1. Initialization Phase</h4>
+                <ul class="interface-list">
+                    <li>Container starts from python:3.11-slim base image</li>
+                    <li>Git system package installed via apt-get</li>
+                    <li>Python dependencies installed from requirements.txt</li>
+                    <li>Working directory set to /app</li>
+                    <li>Source code copied from src/ directory</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>2. Pre-Execution Checks</h4>
+                <ul class="interface-list">
+                    <li>Creates /app/tmp directory for temporary files</li>
+                    <li>Validates volume mount at configured VOLUME path</li>
+                    <li>Raises NotImplementedError if volume not attached</li>
+                    <li>Loads environment variables via env.py</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>3. Execution Phase</h4>
+                <ul class="interface-list">
+                    <li>Invokes main() function via Fire CLI framework</li>
+                    <li>Accepts command-line arguments: action, thread_execution_id, prev_thread_name</li>
+                    <li>Executes 10-step workflow sequence</li>
+                    <li>Updates Windstorm API with progress status</li>
+                </ul>
+            </div>
+            
+            <div class="architecture-layer">
+                <h4>4. Completion Phase</h4>
+                <ul class="interface-list">
+                    <li>Prints execution time statistics</li>
+                    <li>Updates final status to windrunner_2</li>
+                    <li>Leaves artifacts in shared volume for next container</li>
+                    <li>Container exits with status code 0 on success</li>
+                </ul>
+            </div>
+
+            <h3>Environment Configuration</h3>
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>VOLUME</td>
+                    <td>/mnt/vol</td>
+                    <td>Attached volume mount point</td>
+                </tr>
+                <tr>
+                    <td>WINDRUNNERHOST</td>
+                    <td>http://windrunner-webhook-eventsource-svc.argo-events:12000/windrunner</td>
+                    <td>Webhook service endpoint</td>
+                </tr>
+                <tr>
+                    <td>WINDSTORMAPIHOST</td>
+                    <td>http://windstorm-api-service.windstorm:8000/</td>
+                    <td>Workflow orchestration API</td>
+                </tr>
+                <tr>
+                    <td>WINDSTORMAPICLIENT</td>
+                    <td>(required)</td>
+                    <td>OAuth2 client ID</td>
+                </tr>
+                <tr>
+                    <td>WINDSTORMAPISECRET</td>
+                    <td>(required)</td>
+                    <td>OAuth2 client secret</td>
+                </tr>
+                <tr>
+                    <td>MINIOHOST</td>
+                    <td>storage-minio.artifacts:9000</td>
+                    <td>S3-compatible storage endpoint</td>
+                </tr>
+                <tr>
+                    <td>MINIOUSER</td>
+                    <td>(required)</td>
+                    <td>MinIO access key</td>
+                </tr>
+                <tr>
+                    <td>MINIOTOKEN</td>
+                    <td>(required)</td>
+                    <td>MinIO secret key</td>
+                </tr>
+                <tr>
+                    <td>MINIORETENTIONDAYS</td>
+                    <td>7</td>
+                    <td>Artifact retention period</td>
+                </tr>
+                <tr>
+                    <td>GITHOST</td>
+                    <td>configs.digitalforge.app</td>
+                    <td>Git repository host</td>
+                </tr>
+                <tr>
+                    <td>GITUSER</td>
+                    <td>(optional)</td>
+                    <td>Git username</td>
+                </tr>
+                <tr>
+                    <td>GITPASS</td>
+                    <td>(optional)</td>
+                    <td>Git password/token</td>
+                </tr>
+                <tr>
+                    <td>KEYCLOAKHOST</td>
+                    <td>https://keycloak.digitalforge.app</td>
+                    <td>Identity provider endpoint</td>
+                </tr>
+                <tr>
+                    <td>KEYCLOAKREALM</td>
+                    <td>test</td>
+                    <td>Keycloak realm name</td>
+                </tr>
+            </table>
+
+            <h3>Security Considerations</h3>
+            <div class="note">
+                <strong>Authentication & Authorization:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Uses OAuth2 client credentials flow for service authentication</li>
+                    <li>Bearer tokens for API authentication</li>
+                    <li>Access keys for MinIO object storage</li>
+                    <li>Optional Git credentials for private repositories</li>
+                    <li>All secrets should be managed via Kubernetes Secrets</li>
+                    <li>Network policies should restrict inter-namespace communication</li>
+                </ul>
+            </div>
+
+            <h3>CI/CD Integration</h3>
+            <div class="architecture-layer">
+                <h4>GitHub Actions Workflow</h4>
+                <ul class="interface-list">
+                    <li>Automated Docker image building and publishing</li>
+                    <li>Semantic versioning via python-semantic-release</li>
+                    <li>Publishes to GitHub Container Registry (ghcr.io)</li>
+                    <li>Triggered on commits to main branch</li>
+                    <li>Changelog generation from commit messages</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- INTERFACE SPECIFICATIONS -->
+        <div class="section">
+            <h2>🔌 Interface Specifications</h2>
+            
+            <h3>MinIO S3 API Interface</h3>
+            <div class="code-block">
+<span class="comment"># Client Initialization</span>
+client = Minio(
+    endpoint=<span class="string">"storage-minio.artifacts:9000"</span>,
+    access_key=<span class="string">"MINIOUSER"</span>,
+    secret_key=<span class="string">"MINIOTOKEN"</span>,
+    secure=<span class="keyword">False</span>
+)
+
+<span class="comment"># Operations</span>
+<span class="function">download_dependent_output</span>(client, action_prev, prev_thread_name)
+<span class="function">create_bucket</span>(client, action, thread_name)
+            </div>
+
+            <h3>Windstorm API Interface</h3>
+            <div class="code-block">
+<span class="comment"># Authentication</span>
+token = <span class="function">login_windstorm_api</span>()
+<span class="comment"># Returns: OAuth2 bearer token string</span>
+
+<span class="comment"># Thread Status Update</span>
+thread_name = <span class="function">update_thread_status</span>(
+    token,
+    thread_execution_id,
+    status  <span class="comment"># 'windrunner_1' or 'windrunner_2'</span>
+)
+
+<span class="comment"># Dependency Check</span>
+action, action_prev = <span class="function">check_thread_dependency</span>(
+    action,
+    prev_thread_name
+)
+            </div>
+
+            <h3>Git Repository Interface</h3>
+            <div class="code-block">
+<span class="comment"># Clone Template Repository</span>
+repo = <span class="function">clone</span>(action)
+<span class="comment"># Uses GitPython to clone from GITHOST</span>
+
+<span class="comment"># Initialize Local Repository</span>
+repo = <span class="function">init</span>()
+<span class="comment"># Initializes Git repo in VOLUME path</span>
+            </div>
+
+            <h3>Keycloak OAuth2 Interface</h3>
+            <div class="code-block">
+<span class="comment"># Token Endpoint</span>
+POST https://keycloak.digitalforge.app/realms/<span class="string">{realm}</span>/protocol/openid-connect/token
+
+<span class="comment"># Request Body (form-encoded)</span>
+grant_type: client_credentials
+client_id: <span class="string">{WINDSTORMAPICLIENT}</span>
+client_secret: <span class="string">{WINDSTORMAPISECRET}</span>
+
+<span class="comment"># Response</span>
+{
+    <span class="string">"access_token"</span>: <span class="string">"eyJhbGciOiJSUzI1NiIs..."</span>,
+    <span class="string">"token_type"</span>: <span class="string">"Bearer"</span>,
+    <span class="string">"expires_in"</span>: 3600
+}
+            </div>
+        </div>
+
+        <!-- APPENDIX -->
+        <div class="section">
+            <h2>📚 Appendix</h2>
+            
+            <h3>Technology Stack Summary</h3>
+            <table>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Version</th>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td>Python</td>
+                    <td>3.11+</td>
+                </tr>
+                <tr>
+                    <td>Container Runtime</td>
+                    <td>Docker</td>
+                    <td>Compatible</td>
+                </tr>
+                <tr>
+                    <td>Orchestration</td>
+                    <td>Kubernetes</td>
+                    <td>1.20+</td>
+                </tr>
+                <tr>
+                    <td>Event System</td>
+                    <td>Argo Events</td>
+                    <td>Latest</td>
+                </tr>
+                <tr>
+                    <td>Object Storage</td>
+                    <td>MinIO</td>
+                    <td>S3 Compatible</td>
+                </tr>
+                <tr>
+                    <td>Identity Provider</td>
+                    <td>Keycloak</td>
+                    <td>OAuth2/OIDC</td>
+                </tr>
+                <tr>
+                    <td>Version Control</td>
+                    <td>Git</td>
+                    <td>2.x</td>
+                </tr>
+                <tr>
+                    <td>Template Engine</td>
+                    <td>Jinja2</td>
+                    <td>3.1.2</td>
+                </tr>
+            </table>
+
+            <h3>Related Systems</h3>
+            <ul class="interface-list">
+                <li><strong>Windrunner:</strong> Master workflow orchestration system</li>
+                <li><strong>Windstorm:</strong> Workflow API and execution tracking</li>
+                <li><strong>Windbinder:</strong> Shared library for common functionality</li>
+            </ul>
+
+            <h3>Version History</h3>
+            <table>
+                <tr>
+                    <th>Version</th>
+                    <th>Date</th>
+                    <th>Changes</th>
+                </tr>
+                <tr>
+                    <td>0.2.0</td>
+                    <td>2024-12-31</td>
+                    <td>Migration to fully hosted Kubernetes</td>
+                </tr>
+                <tr>
+                    <td>0.1.0</td>
+                    <td>2024-12-31</td>
+                    <td>Initial release</td>
+                </tr>
+                <tr>
+                    <td>0.0.21</td>
+                    <td>2024-12-04</td>
+                    <td>Minikube support added</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer style="text-align: center; padding: 30px; color: white;">
+            <p>&copy; 2023-2024 Westfall Inc. | Licensed under AGPL-3.0</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Generated: February 1, 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
